@@ -17,7 +17,7 @@ public:
         sums.resize(n + 1);
         for (int i = 0; i < n; i++)
         {
-            sums[i + 1] = sums[i] + nums[i];
+            sums[i + 1] = sums[i] + v[i];
         }
     }
 
