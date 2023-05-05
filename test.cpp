@@ -1,16 +1,16 @@
 #include <iostream>
-#include <sstream> //istream
+#include <string>
+#include <cstring>
 using namespace std;
 
 int main()
 {
-    string text = "aaa bb ccc d";
-    istringstream is(text);
-    string word;
-    while (is >> word)
-    {
-        cout << word << endl;
-    }
+    char *string1 = "ae";
+    char *string2 = "aae";
+
+    int length;
+    length = strspn(string1, string2);
+    cout << "character where strings differ is at position: " << length << endl;
     system("pause");
     return 0;
 }
