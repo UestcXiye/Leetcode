@@ -1,16 +1,22 @@
 #include <iostream>
-#include <string>
-#include <cstring>
+#include <set>
+#include <vector>
 using namespace std;
 
 int main()
 {
-    char *string1 = "ae";
-    char *string2 = "aae";
+    vector<int> nums;
+    for (int i = 0; i < 10; i++)
+    {
+        nums.push_back(10 - i);
+        nums.push_back(i);
+    }
+    set<int> s;
+    for (int i = 0; i < nums.size(); i++)
+        s.insert(nums[i]);
 
-    int length;
-    length = strspn(string1, string2);
-    cout << "character where strings differ is at position: " << length << endl;
+    cout << (*(--s.end())) << endl;
+
     system("pause");
     return 0;
 }
