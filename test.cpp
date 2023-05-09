@@ -6,24 +6,41 @@
 #include <algorithm>
 using namespace std;
 
+string transToMax(string s)
+{
+    string temp = s;
+    int index = 0;
+    while (s[index] == '9')
+        index++;
+    for (int i = 0; i < s.size(); i++)
+        if (s[i] == s[index])
+            temp[i] = '9';
+    return temp;
+}
+
+string transToMin(string s)
+{
+    string temp = s;
+    char c = s[0];
+    for (int i = 0; i < s.size(); i++)
+        if (s[i] == c)
+            temp[i] = '0';
+    return temp;
+}
+
+int strToNum(string s)
+{
+    int sum = 0;
+    for (int i = 0; i < s.size(); i++)
+        sum = 10 * sum + s[i] - '0';
+    return sum;
+}
+
 int main()
 {
-    vector<int> nums = {10, 4, 8, 3};
-    int n = nums.size();
-    vector<int> leftSum(n);
-    vector<int> rightSum(n);
-    leftSum[0] = 0;
-    for (int i = 1; i < n; i++)
-        leftSum[i] = leftSum[i - 1] + nums[i - 1];
-    // for (int i = 0; i < n; i++)
-    //     cout << leftSum[i] << " ";
-    // cout << endl;
-    rightSum[n - 1] = 0;
-    for (int i = n - 2; i >= 0; i--)
-        rightSum[i] = rightSum[i + 1] + nums[i + 1];
-    // for (int i = 0; i < n; i++)
-    //     cout << rightSum[i] << " ";
-    // cout << endl;
+    cout << strToNum("123") << endl;
+    cout << transToMax("11891") << endl;
+    cout << transToMin("11891") << endl;
 
     system("pause");
     return 0;
