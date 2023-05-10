@@ -7,30 +7,19 @@
 #include <algorithm>
 using namespace std;
 
-string wordBits(string word)
-{
-    string bits(26, '0');
-    for (int i = 0; i < word.size(); i++)
-        bits[word[i] - 'a'] = 1;
-    return bits;
-}
-
-int similarPairs(vector<string> &words)
-{
-    int ans = 0;
-    int n = words.size();
-    for (int i = 0; i < n - 1; i++)
-        for (int j = i + 1; j < n; j++)
-            if (wordBits(words[i]) == wordBits(words[j]))
-                ans++;
-    return ans;
-}
-
 int main()
 {
-    vector<string> words = {"aba", "aabb", "abcd", "bac", "aabc"};
-    cout << similarPairs(words) << endl;
-
+    string word = "abbc";
+    vector<int> alphaCount(26, 0);
+    for (int i = 0; i < word.size(); i++)
+        alphaCount[word[i] - 'a']++;
+    sort(alphaCount.begin(), alphaCount.end());
+    for (int i = 0; i < 26; i++)
+        if (alphaCount[i] == 0)
+            alphaCount.erase(i);
+    for (int i = 0; i < 26; i++)
+        cout << alphaCount[i] << " ";
+    cout << endl;
     system("pause");
     return 0;
 }
