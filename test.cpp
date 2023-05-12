@@ -1,39 +1,44 @@
 #include <iostream>
-#include <unordered_set>
-#include <set>
-#include <vector>
-#include <cmath>
 #include <string>
+#include <vector>
+#include <set>
+#include <unordered_set>
+#include <unordered_map>
+#include <cmath>
 #include <algorithm>
 using namespace std;
 
+static bool cmp(const vector<int> A, const vector<int> B)
+{
+    return A[0] < B[0];
+}
+
 int main()
 {
-    int initialEnergy = 5;
-    int initialExperience = 3;
-    vector<int> energy = {1, 4, 3, 2};
-    vector<int> experience = {2, 6, 3, 1};
-
-    int ans = 0;
-    int totalEnergy = 0;
-    for (int i = 0; i < energy.size(); i++)
-        totalEnergy += energy[i];
-    int neededEnergy = totalEnergy - initialEnergy + 1;
-    ans += neededEnergy > 0 ? neededEnergy : 0;
-    int currentExperience = initialExperience;
-    int neededExperience = 0;
-    for (int i = 0; i < experience.size(); i++)
+    vector<vector<int>> items1 = {{1, 1}, {4, 5}, {3, 8}};
+    vector<vector<int>> items2 = {{3, 1}, {1, 5}};
+    unordered_map<int, int> umap;
+    for (vector<int> item : items1)
     {
-        if (currentExperience <= experience[i])
-        {
-            neededExperience += experience[i] - currentExperience + 1;
-            currentExperience += neededExperience + experience[i];
-        }
+        if (umap.count(item[0]))
+            umap[item[0]] += item[1];
         else
-            currentExperience += experience[i];
+            umap[item[0]] = item[1];
     }
-    cout << neededEnergy << " " <<
+    for (vector<int> item : items2)
+    {
+        if (umap.count(item[0]))
+            umap[item[0]] += item[1];
+        else
+            umap[item[0]] = item[1];
+    }
 
-        system("pause");
+    vector<vector<int>> res;
+    for (auto it = umap.begin(); it != umap.end(); it++)
+        res.push_back({(*it).first, (*it).second});
+    sort(res.begin(), res.end(), cmp);
+    for (vector<int> v : res)
+        cout << v[0] << " " << v[1] << endl;
+    system("pause");
     return 0;
 }
