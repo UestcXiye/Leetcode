@@ -8,28 +8,15 @@
 #include <algorithm>
 using namespace std;
 
-string turnToBits(int num)
-{
-    string bits;
-    while (num)
-    {
-        bits.push_back(num % 2 + '0');
-        num /= 2;
-    }
-    return bits;
-}
-
 int main()
 {
-    int start = 10, goal = 82;
-    string startBits = turnToBits(start);
-    string goalBits = turnToBits(goal);
-    if (startBits.size() < goalBits.size())
-        startBits.append(goalBits.size() - startBits.size(), '0');
-    else
-        goalBits.append(startBits.size() - goalBits.size(), '0');
-    cout << startBits << endl;
-    cout << goalBits << endl;
+    vector<int> nums = {3, 2, 3, 2, 2, 2};
+    unordered_map<int, int> umap;
+    for (int num : nums)
+        umap[num]++;
+    for (auto it = umap.begin(); it != umap.end(); it++)
+        cout << it->first << " " << it->second << endl;
+    
     system("pause");
     return 0;
 }
