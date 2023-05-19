@@ -10,13 +10,12 @@ using namespace std;
 
 int main()
 {
-    vector<int> nums = {3, 2, 3, 2, 2, 2};
-    unordered_map<int, int> umap;
-    for (int num : nums)
-        umap[num]++;
-    for (auto it = umap.begin(); it != umap.end(); it++)
-        cout << it->first << " " << it->second << endl;
-    
+    string s = "iiii";
+    string trans;
+    for (char c : s)
+        trans.append(to_string((int)c - 'a' + 1));
+    cout << trans << endl;
+
     system("pause");
     return 0;
 }
