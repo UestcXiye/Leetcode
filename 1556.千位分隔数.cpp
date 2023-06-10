@@ -17,7 +17,7 @@ public:
             int cur = n % 10;
             n /= 10;
             ans += to_string(cur);
-            ++count;
+            count++;
             if (count % 3 == 0 && n)
                 ans += '.';
         } while (n);
