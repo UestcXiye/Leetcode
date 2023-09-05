@@ -25,7 +25,7 @@ public:
                     if (i == 0 || j == 0)
                         dp[i][j] = 1;
                     else
-                        dp[i][j] = min(min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1]) + 1;
+                        dp[i][j] = min(min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1]) + 1;// 状态转移方程
                     maxSide = max(maxSide, dp[i][j]);
                 }
         return maxSide * maxSide;
