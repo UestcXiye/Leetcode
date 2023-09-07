@@ -10,6 +10,9 @@ class Solution
 public:
     int longestCommonSubsequence(string text1, string text2)
     {
+        // 特判
+        if (text1.empty() || text2.empty())
+            return 0;
         int len1 = text1.size(), len2 = text2.size();
         // 状态数组，并初始化
         //  dp[i][j]表示到text1的位置i为止、到text2的位置j为止、最长的公共子序列长度
