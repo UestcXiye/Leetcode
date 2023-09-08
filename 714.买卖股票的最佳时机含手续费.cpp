@@ -1,26 +1,17 @@
 /*
- * @lc app=leetcode.cn id=122 lang=cpp
+ * @lc app=leetcode.cn id=714 lang=cpp
  *
- * [122] 买卖股票的最佳时机 II
+ * [714] 买卖股票的最佳时机含手续费
  */
 
 // @lc code=start
-// class Solution
-// {
-// public:
-//     int maxProfit(vector<int> &prices)
-//     {
-//         int ans = 0;
-//         for (int i = 1; i < prices.size(); i++)
-//             if (prices[i] - prices[i - 1] > 0)
-//                 ans += prices[i] - prices[i - 1];
-//         return ans;
-//     }
-// };
+
+// 与 「122.买卖股票的最佳时机 II」 唯一的区别：卖出股票需要支付一次手续费
+
 class Solution
 {
 public:
-    int maxProfit(vector<int> &prices)
+    int maxProfit(vector<int> &prices, int fee)
     {
         // 特判
         if (prices.empty())
@@ -35,7 +26,8 @@ public:
         // 状态转移
         for (int i = 2; i <= n; i++)
         {
-            dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + prices[i - 1]);
+
+            dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + prices[i - 1] - fee);
             dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] - prices[i - 1]);
         }
         return max(dp[n][0], dp[n][1]);
