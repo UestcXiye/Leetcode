@@ -5,6 +5,27 @@
  */
 
 // @lc code=start
+// class Solution
+// {
+// public:
+//     string convertToBase7(int num)
+//     {
+//         if (num == 0)
+//             return "0";
+//         int n = abs(num);
+//         string ans;
+//         while (n)
+//         {
+//             ans += '0' + n % 7;
+//             n /= 7;
+//         }
+//         if (num < 0)
+//             ans += "-";
+//         reverse(ans.begin(), ans.end());
+//         return ans;
+//     }
+// };
+
 class Solution
 {
 public:
@@ -12,17 +33,17 @@ public:
     {
         if (num == 0)
             return "0";
-        int n = abs(num);
+        bool is_negative = num < 0;
+        if (is_negative)
+            num = -num;
         string ans;
-        while (n)
+        while (num)
         {
-            ans += '0' + n % 7;
-            n /= 7;
+            int a = num / 7, b = num % 7;
+            ans = to_string(b) + ans;
+            num = a;
         }
-        if (num < 0)
-            ans += "-";
-        reverse(ans.begin(), ans.end());
-        return ans;
+        return is_negative ? "-" + ans : ans;
     }
 };
 // @lc code=end
