@@ -10,14 +10,15 @@ class Solution
 public:
     string convertToTitle(int columnNumber)
     {
-        string temp;
+        string ans;
         while (columnNumber)
         {
-            columnNumber -= 1;
-            temp += 'A' + columnNumber % 26;
+            columnNumber--;
+            ans += 'A' + columnNumber % 26;
             columnNumber /= 26;
         }
-        return string(temp.rbegin(), temp.rend());
+        reverse(ans.begin(), ans.end());
+        return ans;
     }
 };
 // @lc code=end
