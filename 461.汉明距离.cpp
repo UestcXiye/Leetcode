@@ -5,20 +5,12 @@
  */
 
 // @lc code=start
+
+// 转换为字符串再比较
+
 // class Solution
 // {
 // public:
-//     string trans(int n)
-//     {
-//         string result = "";
-//         while (n > 0)
-//         {
-//             result += '0' + n % 2;
-//             n /= 2;
-//         }
-//         reverse(result.begin(), result.end());
-//         return result;
-//     }
 //     int hammingDistance(int x, int y)
 //     {
 //         string sx = trans(x);
@@ -37,14 +29,45 @@
 //         }
 //         return ans;
 //     }
+//     // 辅函数
+//     string trans(int n)
+//     {
+//         string result = "";
+//         while (n > 0)
+//         {
+//             result += '0' + n % 2;
+//             n /= 2;
+//         }
+//         reverse(result.begin(), result.end());
+//         return result;
+//     }
 // };
+
+// STL
+
+// class Solution
+// {
+// public:
+//     int hammingDistance(int x, int y)
+//     {
+//         return __builtin_popcount(x ^ y);
+//     }
+// };
+
+// 异或操作
 
 class Solution
 {
 public:
     int hammingDistance(int x, int y)
     {
-        return __builtin_popcount(x ^ y);
+        int diff = x ^ y, ans = 0;
+        while (diff)
+        {
+            ans += diff & 01;
+            diff >>= 1;
+        }
+        return ans;
     }
 };
 
