@@ -5,25 +5,23 @@
  */
 
 // @lc code=start
+
+// 前缀和
+
 class NumArray
 {
+private:
+    vector<int> pSum;
+
 public:
-    vector<int> v;
-    vector<int> sums;
-    NumArray(vector<int> &nums)
+    NumArray(vector<int> nums) : pSum(nums.size() + 1, 0)
     {
-        v = nums;
-        int n = nums.size();
-        sums.resize(n + 1);
-        for (int i = 0; i < n; i++)
-        {
-            sums[i + 1] = sums[i] + v[i];
-        }
+        partial_sum(nums.begin(), nums.end(), pSum.begin() + 1);
     }
 
-    int sumRange(int left, int right)
+    int sumRange(int i, int j)
     {
-        return sums[right + 1] - sums[left];
+        return pSum[j + 1] - pSum[i];
     }
 };
 
