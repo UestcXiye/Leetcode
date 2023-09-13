@@ -27,20 +27,18 @@ public:
     vector<int> findDisappearedNumbers(vector<int> &nums)
     {
         int n = nums.size();
-        for (auto &num : nums)
+        // 直接对原数组进行标记
+        for (const int &num : nums)
         {
-            int x = (num - 1) % n;
-            nums[x] += n;
+            int pos = abs(num) - 1;
+            if (nums[pos] > 0)
+                nums[pos] = -nums[pos];
         }
-        vector<int> ret;
+        vector<int> ans;
         for (int i = 0; i < n; i++)
-        {
-            if (nums[i] <= n)
-            {
-                ret.push_back(i + 1);
-            }
-        }
-        return ret;
+            if (nums[i] > 0)
+                ans.push_back(i + 1);
+        return ans;
     }
 };
 // @lc code=end
