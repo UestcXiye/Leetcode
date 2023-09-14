@@ -11,10 +11,10 @@ public:
     int findShortestSubArray(vector<int> &nums)
     {
         int n = nums.size();
-        unordered_map<int, vector<int>> umap;
+        unordered_map<int, vector<int>> umap; //<值, [出现次数, 最初出现下标, 最终出现下标]>
         for (int i = 0; i < n; i++)
         {
-            if (umap.count(num))
+            if (umap.count(nums[i]))
             {
                 umap[nums[i]][0]++;
                 umap[nums[i]][2] = i;
