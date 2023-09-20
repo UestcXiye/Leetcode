@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode.cn id=543 lang=cpp
+ * @lc app=leetcode.cn id=110 lang=cpp
  *
- * [543] 二叉树的直径
+ * [110] 平衡二叉树
  */
 
 // @lc code=start
@@ -19,21 +19,18 @@
 class Solution
 {
 private:
-    int diameter = 0;
-    int dfs(TreeNode *node)
+    // 计算二叉树的最大深度
+    int maxDepth(TreeNode *root)
     {
-        if (node == nullptr)
-            return 0;
-        int left = dfs(node->left), right = dfs(node->right);
-        diameter = max(left + right, diameter);
-        return max(left, right) + 1;
+        return root ? 1 + max(maxDepth(root->left), maxDepth(root->right)) : 0;
     }
 
 public:
-    int diameterOfBinaryTree(TreeNode *root)
+    bool isBalanced(TreeNode *root)
     {
-        dfs(root);
-        return diameter;
+        if (root == nullptr)
+            return true;
+        return abs(maxDepth(root->left) - maxDepth(root->right)) <= 1 && isBalanced(root->left) && isBalanced(root->right);
     }
 };
 // @lc code=end
