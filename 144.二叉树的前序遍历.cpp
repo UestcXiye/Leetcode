@@ -21,22 +21,6 @@
 
 class Solution
 {
-private:
-    // 辅函数 - 先序遍历
-    void preorder(TreeNode *root, vector<int> &nums)
-    {
-        if (root == nullptr)
-            return;
-        visit(root, nums);
-        preorder(root->left, nums);
-        preorder(root->right, nums);
-    }
-    // 辅函数 - 将当前访问节点的值记录到数组里
-    void visit(TreeNode *node, vector<int> &nums)
-    {
-        nums.push_back(node->val);
-    }
-
 public:
     // 主函数
     vector<int> preorderTraversal(TreeNode *root)
@@ -44,6 +28,15 @@ public:
         vector<int> nums;
         preorder(root, nums);
         return nums;
+    }
+    // 辅函数 - 先序遍历
+    void preorder(TreeNode *root, vector<int> &nums)
+    {
+        if (root == nullptr)
+            return;
+        nums.push_back(node->val);
+        preorder(root->left, nums);
+        preorder(root->right, nums);
     }
 };
 

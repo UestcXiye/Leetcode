@@ -21,22 +21,24 @@ class Solution
 private:
     int ans = __INT_MAX__;
     TreeNode *pre = nullptr;
+
+public:
+    // 主函数
+    int getMinimumDifference(TreeNode *root)
+    {
+        inOrder(root);
+        return ans;
+    }
+    // 辅函数 - 中序遍历
     void inOrder(TreeNode *node)
     {
         if (node == nullptr)
             return;
         inOrder(node->left);
         if (pre != nullptr)
-            ans = min(abs(node->val - pre->val), ans);
+            ans = min(ans, abs(node->val - pre->val));
         pre = node;
         inOrder(node->right);
-    }
-
-public:
-    int getMinimumDifference(TreeNode *root)
-    {
-        inOrder(root);
-        return ans;
     }
 };
 // @lc code=end

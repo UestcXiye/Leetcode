@@ -25,10 +25,10 @@ public:
             return root2;
         if (root2 == nullptr)
             return root1;
-        TreeNode *merge = new TreeNode(root1->val + root2->val);
-        merge->left = mergeTrees(root1->left, root2->left);
-        merge->right = mergeTrees(root1->right, root2->right);
-        return merge;
+        TreeNode *mergeNode = new TreeNode(root1->val + root2->val);
+        mergeNode->left = mergeTrees(root1->left, root2->left);
+        mergeNode->right = mergeTrees(root1->right, root2->right);
+        return mergeNode;
     }
 };
 // @lc code=end
