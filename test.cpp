@@ -84,7 +84,7 @@ int expand(string s, int left, int right)
     // 由于while循环退出后left和right各多走了一步，所以在返回的总长度时要减去2
     return (right - left - 2) / 2;
 }
-//辅函数 - 对原始字符串进行预处理（添加分隔符）
+// 辅函数 - 对原始字符串进行预处理（添加分隔符）
 string addBoundaries(string s, char divide)
 {
     if (s.empty())
