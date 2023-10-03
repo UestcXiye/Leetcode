@@ -15,9 +15,21 @@ int expand(string s, int left, int right);
 
 int main()
 {
-    string s = "cbbd";
-    cout << addBoundaries(s, '#') << endl;
-    cout << longestPalindrome(s) << endl;
+    // string s = "cbbd";
+    // cout << addBoundaries(s, '#') << endl;
+    // cout << longestPalindrome(s) << endl;
+
+    unordered_map<char, string> dict{
+        {'2', "abc"},
+        {'3', "def"},
+        {'4', "ghi"},
+        {'5', "jkl"},
+        {'6', "mno"},
+        {'7', "pqrs"},
+        {'8', "tuv"},
+        {'9', "wxyz"}};
+    string digits = "3";
+    cout << dict[digits[0]] << endl;
 
     system("pause");
     return 0;
