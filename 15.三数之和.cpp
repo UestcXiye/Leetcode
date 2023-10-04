@@ -18,7 +18,7 @@ public:
         int n = nums.size();
         sort(nums.begin(), nums.end());
         set<vector<int>> ans_set;
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < n - 2; i++)
         {
             int target = -nums[i];
             int left = i + 1, right = n - 1;
