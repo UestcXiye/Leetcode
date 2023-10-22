@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 #include <vector>
 #include <algorithm>
 #include <numeric>
@@ -25,9 +26,11 @@ void PrintVector(vector<int> &vec);
 
 int main()
 {
-	vector<int> indices(10, 0);
-	iota(indices.begin(), indices.end(), 0);
-	PrintVector(indices);
+	string s = "loveleetcode";
+	int n = s.size();
+	int i = 1;
+	cout << s.substr(0, i + 1) << endl;
+	cout << s.substr(i, n - i) << endl;
 
 	system("pause");
 	return 0;

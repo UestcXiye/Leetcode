@@ -49,7 +49,9 @@
         "list": "cpp",
         "set": "cpp",
         "unordered_set": "cpp",
-        "chrono": "cpp"
+        "chrono": "cpp",
+        "thread": "cpp",
+        "functional": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
