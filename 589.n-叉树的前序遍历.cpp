@@ -35,13 +35,14 @@ public:
         return nums;
     }
     // 辅函数
-    void helper(const Node *root, vector<int> &nums)
+    void helper(Node *root, vector<int> &nums)
     {
         if (root == nullptr)
             return;
         nums.push_back(root->val);
-        for (auto &child : root->children)
-            helper(child, nums);
+        if (!root->children.empty())
+            for (auto &child : root->children)
+                helper(child, nums);
     }
 };
 // @lc code=end
