@@ -21,17 +21,30 @@ void CountSort(vector<int> &costs)
 			index++;
 		}
 }
+bool cmp1(int i, int j)
+{
+	return i < j;
+}
+bool cmp2(const int &i, const int &j)
+{
+	return i > j;
+}
 
 void PrintVector(vector<int> &vec);
 
 int main()
 {
-	string s = "loveleetcode";
-	int n = s.size();
-	int i = 1;
-	cout << s.substr(0, i + 1) << endl;
-	cout << s.substr(i, n - i) << endl;
-
+	vector<int> arr{3, 5, 6, 6};
+	int max_num_index = max_element(arr.begin(), arr.end()) - arr.begin();
+	cout << max_num_index << endl;
+	if (is_sorted(arr.begin(), arr.begin() + max_num_index + 1, cmp1))
+		cout << "Sorted\n";
+	else
+		cout << "Not Sorted\n";
+	if (is_sorted(arr.begin() + max_num_index + 1, arr.end(), cmp2))
+		cout << "Sorted\n";
+	else
+		cout << "Not Sorted\n";
 	system("pause");
 	return 0;
 }
