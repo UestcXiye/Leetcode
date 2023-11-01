@@ -35,7 +35,7 @@ void PrintVector(vector<int> &vec);
 
 int main()
 {
-	cout << pow(2, 20) << endl;
+	cout << 99*99+1 << endl;
 	system("pause");
 	return 0;
 }
