@@ -32,12 +32,23 @@ void PrintVector(vector<int> &vec)
 
 int main()
 {
-	vector<int> point1 = {1, 1};
-	vector<int> point2 = {2, 2};
-	vector<int> point3 = {2, 2};
+	string s = "1326#";
 
-	if (point3 == point2)
-		cout << "Yes\n";
+	int n = s.size();
+	string ans;
+	for (int i = 0; i < n; i++)
+	{
+		if (i + 2 < n && s[i + 2] == '#')
+		{
+			int pianyi = stoi(s.substr(i, 2)) - 1;
+			cout << pianyi << endl;
+			ans += (char)('a' + pianyi);
+			i += 2;
+		}
+		else
+			ans += (char)('a' + s[i] - '1');
+	}
+	cout << ans << endl;
 
 	system("pause");
 	return 0;
