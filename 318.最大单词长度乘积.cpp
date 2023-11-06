@@ -16,11 +16,11 @@ public:
     {
         unordered_map<int, int> hash;
         int ans = 0;
-        for (string &word : words)
+        for (const string &word : words)
         {
             int len = word.size();
             int mask = 0;
-            for (char &c : word)
+            for (const char &c : word)
                 mask |= 1 << (c - 'a');
             hash[mask] = max(hash[mask], len);
             for (auto &[h_mask, h_len] : hash)
