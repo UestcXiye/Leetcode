@@ -30,25 +30,27 @@ void PrintVector(vector<int> &vec)
 	cout << endl;
 }
 
-int main()
+vector<int> getNums(string version)
 {
-	string s = "1326#";
-
-	int n = s.size();
-	string ans;
+	int n = version.size(), begin = 0;
+	vector<int> nums;
 	for (int i = 0; i < n; i++)
 	{
-		if (i + 2 < n && s[i + 2] == '#')
+		if (version[i] == '.')
 		{
-			int pianyi = stoi(s.substr(i, 2)) - 1;
-			cout << pianyi << endl;
-			ans += (char)('a' + pianyi);
-			i += 2;
+			string temp = version.substr(begin, i - begin);
+			nums.push_back(stoi(temp));
+			begin = i;
 		}
-		else
-			ans += (char)('a' + s[i] - '1');
 	}
-	cout << ans << endl;
+	return nums;
+}
+
+int main()
+{
+	string version = "0.0.123.1";
+	vector<int> nums = getNums(version);
+	PrintVector(nums);
 
 	system("pause");
 	return 0;
