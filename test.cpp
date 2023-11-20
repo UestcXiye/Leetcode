@@ -48,9 +48,7 @@ vector<int> getNums(string version)
 
 int main()
 {
-	string version = "0.0.123.1";
-	vector<int> nums = getNums(version);
-	PrintVector(nums);
+	cout << __cplusplus << endl;
 
 	system("pause");
 	return 0;

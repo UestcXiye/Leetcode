@@ -11,7 +11,7 @@ public:
     int maximizeSum(vector<int> &nums, int k)
     {
         sort(nums.begin(), nums.end());
-        int max = nums[nums.size() - 1];
+        int max = nums.back();
         int sum = 0;
         for (int i = 0; i < k; i++)
             sum += max + i;
