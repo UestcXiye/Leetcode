@@ -2,25 +2,55 @@
 #include <cstring>
 #include <vector>
 #include <algorithm>
-#include <numeric>
-#include <cmath>
 using namespace std;
 
-#define MAX_COST 1e5
-#define MAX_N 1e5 + 1
+void PrintVector(vector<int> &vec);
 
-void CountSort(vector<int> &costs)
+// template <typename T>
+// class print
+// {
+// public:
+// 	void operator()(const T &elem)
+// 	{
+// 		cout << elem << ' ';
+// 	}
+// };
+
+template <class T>
+struct plus
 {
-	vector<int> cnt(MAX_N, 0);
-	for (int &cost : costs)
-		cnt[cost]++;
-	int index = 0;
-	for (int i = 0; i <= MAX_COST; i++)
-		for (int j = 0; j < cnt[i]; j++)
-		{
-			costs[index] = i;
-			index++;
-		}
+	T operator()(const T &x, const T &y) const
+	{
+		return x + y;
+	}
+};
+
+template <class T>
+struct minus
+{
+	T operator()(const T &x, const T &y) const
+	{
+		return x - y;
+	}
+};
+
+int main()
+{
+	// int ia[6] = {0, 1, 2, 3, 4, 5};
+	// vector<int> iv(ia, ia + 6);
+	// for_each(iv.begin(), iv.end(), print<int>());
+
+	plus<int> plus_obj;
+	minus<int> minus_obj;
+
+	cout << plus_obj(3, 5) << endl;
+	cout << minus_obj(3, 5) << endl;
+
+	// cout << plus<int>()(1, 2) << endl;
+	// cout << minus<int>()(1, 2) << endl;
+
+	system("pause");
+	return 0;
 }
 
 void PrintVector(vector<int> &vec)
@@ -28,28 +58,4 @@ void PrintVector(vector<int> &vec)
 	for (int &v : vec)
 		cout << v << " ";
 	cout << endl;
-}
-
-vector<int> getNums(string version)
-{
-	int n = version.size(), begin = 0;
-	vector<int> nums;
-	for (int i = 0; i < n; i++)
-	{
-		if (version[i] == '.')
-		{
-			string temp = version.substr(begin, i - begin);
-			nums.push_back(stoi(temp));
-			begin = i;
-		}
-	}
-	return nums;
-}
-
-int main()
-{
-	cout << __cplusplus << endl;
-
-	system("pause");
-	return 0;
 }
