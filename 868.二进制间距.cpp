@@ -10,18 +10,16 @@ class Solution
 public:
     int binaryGap(int n)
     {
-        int last = -1, ans = 0;
-        for (int i = 0; n > 0; i++)
+        int maxGap = 0, last = INT_MAX;
+        for (int i = 0; i < 32; i++)
         {
-            if (n & 01)
+            if (n & (1 << i))
             {
-                if (last != -1)
-                    ans = max(ans, i - last);
+                maxGap = max(maxGap, i - last);
                 last = i;
             }
-            n >>= 1;
         }
-        return ans;
+        return maxGap;
     }
 };
 // @lc code=end
