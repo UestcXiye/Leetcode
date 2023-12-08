@@ -36,12 +36,4 @@ string delSpaceStr(string s)
 		return s.substr(i, j - i + 1);
 	return "";
 }
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
+
