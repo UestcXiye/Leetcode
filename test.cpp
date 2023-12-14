@@ -36,4 +36,3 @@ string delSpaceStr(string s)
 		return s.substr(i, j - i + 1);
 	return "";
 }
-
