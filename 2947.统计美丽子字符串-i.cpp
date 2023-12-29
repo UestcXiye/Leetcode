@@ -6,7 +6,7 @@
 
 // @lc code=start
 
-// 双指针
+// 暴力
 
 class Solution
 {
