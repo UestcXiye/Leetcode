@@ -1,0 +1,61 @@
+/*
+ * @lc app=leetcode.cn id=1599 lang=cpp
+ *
+ * [1599] 经营摩天轮的最大利润
+ */
+
+// @lc code=start
+
+// 模拟
+
+class Solution
+{
+public:
+    int minOperationsMaxProfit(vector<int> &customers, int boardingCost, int runningCost)
+    {
+        int maxProfit = 0, totalProfit = 0;
+        int operations = 0;
+        int customersCount = 0;
+        int ans = -1;
+        for (int i = 0; i < customers.size(); i++)
+        {
+            operations++;
+            customersCount += customers[i];
+            int curCustomers = min(customersCount, 4);
+            customersCount -= curCustomers;
+            totalProfit += boardingCost * curCustomers - runningCost;
+            if (totalProfit > maxProfit)
+            {
+                maxProfit = totalProfit;
+                ans = operations;
+            }
+        }
+        if (customersCount == 0)
+            return ans;
+        int profitEachTime = boardingCost * 4 - runningCost;
+        if (profitEachTime <= 0)
+            return ans;
+        if (customersCount > 0)
+        {
+            int fullTimes = customersCount / 4;
+            totalProfit += profitEachTime * fullTimes;
+            operations += fullTimes;
+            if (totalProfit > maxProfit)
+            {
+                maxProfit = totalProfit;
+                ans = operations;
+            }
+            int remainingCustomers = customersCount % 4;
+            int remainingProfit = boardingCost * remainingCustomers - runningCost;
+            totalProfit += remainingProfit;
+            if (totalProfit > maxProfit)
+            {
+                maxProfit = totalProfit;
+                operations++;
+                ans = operations;
+            }
+        }
+        return ans;
+    }
+};
+// @lc code=end
