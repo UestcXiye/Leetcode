@@ -6,34 +6,51 @@
 
 // @lc code=start
 
+// 暴力
+
+// class Solution
+// {
+// public:
+//     int minLength(string s)
+//     {
+//         // 特判
+//         if (s.empty())
+//             return 0;
+
+//         int indexOfAB = s.find("AB"), indexOfCD = s.find("CD");
+//         while (indexOfAB != string::npos || indexOfCD != string::npos)
+//         {
+//             if (indexOfAB != string::npos)
+//                 s = s.substr(0, indexOfAB) + s.substr(indexOfAB + 2);
+//             indexOfCD = s.find("CD");
+//             if (indexOfCD != string::npos)
+//                 s = s.substr(0, indexOfCD) + s.substr(indexOfCD + 2);
+//             indexOfAB = s.find("AB"), indexOfCD = s.find("CD");
+//         }
+//         return s.length();
+//     }
+// };
+
+// 栈
+
 class Solution
 {
 public:
     int minLength(string s)
     {
-        // 先查询原始字符串中是否存在子字符串AB或CD
-        int IndexAB = s.find("AB"), indexCD = s.find("CD");
-        string temp = s;
-        // 如果还能找到AB或CD子字符串，则循环继续
-        while (IndexAB != -1 || indexCD != -1)
+        // 特判
+        if (s.empty())
+            return 0;
+
+        stack<char> stk;
+        for (char &c : s)
         {
-            if (IndexAB != -1)
-            {
-                // 如果找到子字符串AB，则将其从原始字符串中删除
-                temp = s.substr(0, IndexAB) + s.substr(IndexAB + 2);
-            }
-            // 为了防止上面删除AB字符串后，原本CD字符串的为值发生改变，此处重新计算
-            indexCD = temp.find("CD");
-            if (indexCD != -1)
-            {
-                // 如果找到子字符串CD，则将其从原始字符串中删除
-                temp = temp.substr(0, indexCD) + temp.substr(indexCD + 2);
-            }
-            IndexAB = temp.find("AB");
-            indexCD = temp.find("CD");
-            s = temp;
+            if (!stk.empty() && ((c == 'B' && stk.top() == 'A') || (c == 'D' && stk.top() == 'C')))
+                stk.pop();
+            else
+                stk.push(c);
         }
-        return s.size();
+        return stk.size();
     }
 };
 // @lc code=end
