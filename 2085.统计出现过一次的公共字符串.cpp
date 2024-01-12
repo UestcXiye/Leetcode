@@ -11,13 +11,13 @@ public:
     int countWords(vector<string> &words1, vector<string> &words2)
     {
         unordered_map<string, int> umap1, umap2;
-        for (string word : words1)
+        for (const string &word : words1)
             umap1[word]++;
-        for (string word : words2)
+        for (const string &word : words2)
             umap2[word]++;
         int ans = 0;
-        for (auto it = umap1.begin(); it != umap1.end(); it++)
-            if (it->second == 1 && umap2[it->first] == 1)
+        for (auto &[str, cnt] : umap1)
+            if (cnt == 1 && umap2[str] == 1)
                 ans++;
         return ans;
     }
