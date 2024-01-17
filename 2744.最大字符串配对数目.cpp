@@ -14,12 +14,8 @@ public:
         int ans = 0;
         for (int i = 0; i < n - 1; i++)
             for (int j = i + 1; j < n; j++)
-            {
-                string rev = words[i];
-                reverse(rev.begin(), rev.end());
-                if (rev == words[j])
+                if (words[i] == string(words[j].rbegin(), words[j].rend()))
                     ans++;
-            }
         return ans;
     }
 };
