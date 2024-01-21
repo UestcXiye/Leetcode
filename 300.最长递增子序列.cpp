@@ -5,6 +5,9 @@
  */
 
 // @lc code=start
+
+// 递归
+
 // class Solution
 // {
 // public:
@@ -13,14 +16,49 @@
 //         // 特判
 //         if (nums.size() == 1)
 //             return 1;
-//         int n = nums.size(), maxLength = 0;
-//         // 状态数组，并初始化
+
+//         int n = nums.size();
+
+//         function<int(int)> dfs = [&](int i)
+//         {
+//             int res = 0;
+//             for (int j = 0; j < i; j++)
+//                 if (nums[j] < nums[i])
+//                     res = max(res, dfs(j));
+//             return res + 1;
+//         };
+
+//         int ans = 0;
+//         for (int i = 0; i < n; i++)
+//             ans = max(ans, dfs(i));
+//         return ans;
+//     }
+// };
+
+// 动态规划
+
+// class Solution
+// {
+// public:
+//     int lengthOfLIS(vector<int> &nums)
+//     {
+//         // 特判
+//         if (nums.size() == 1)
+//             return 1;
+
+//         int n = nums.size();
+//         // dp[i]: 以 i 结尾的最长递增子序列的长度
 //         vector<int> dp(n, 1);
+//         // 初始化
+//         for (int i = 0; i < n; i++)
+//             dp[i] = 1;
+
+//         int maxLength = 0;
 //         // 状态转移
 //         for (int i = 0; i < n; i++)
 //             for (int j = 0; j < i; j++)
 //             {
-//                 if (nums[i] > nums[j])
+//                 if (nums[j] < nums[i])
 //                     dp[i] = max(dp[i], dp[j] + 1); // 状态转移方程
 //                 maxLength = max(maxLength, dp[i]);
 //             }
@@ -28,7 +66,8 @@
 //     }
 // };
 
-// 二分查找
+// 贪心 + 二分查找
+
 class Solution
 {
 public:
@@ -37,20 +76,18 @@ public:
         // 特判
         if (nums.size() == 1)
             return 1;
+
         int n = nums.size();
-        vector<int> dp;
-        dp.push_back(nums[0]);
-        for (int i = 1; i < n; i++)
+        vector<int> g;
+        for (int i = 0; i < n; i++)
         {
-            if (dp.back() < nums[i])
-                dp.push_back(nums[i]);
+            int j = lower_bound(g.begin(), g.end(), nums[i]) - g.begin();
+            if (j == g.size())
+                g.push_back(nums[i]);
             else
-            {
-                auto iter = lower_bound(dp.begin(), dp.end(), nums[i]);
-                *iter = nums[i];
-            }
+                g[j] = nums[i];
         }
-        return dp.size();
+        return g.size();
     }
 };
 // @lc code=end
