@@ -11,21 +11,22 @@ public:
     int sumIndicesWithKSetBits(vector<int> &nums, int k)
     {
         int sum = 0;
+
+        auto countOne = [](int x) -> int
+        {
+            int count = 0;
+            while (x)
+            {
+                count += x % 2;
+                x /= 2;
+            }
+            return count;
+        };
+
         for (int i = 0; i < nums.size(); i++)
             if (countOne(i) == k)
                 sum += nums[i];
         return sum;
-    }
-    // 辅函数 - 求整数 x 的置位（1）的个数
-    int countOne(int x)
-    {
-        int count = 0;
-        while (x)
-        {
-            count += x % 2;
-            x /= 2;
-        }
-        return count;
     }
 };
 // @lc code=end
