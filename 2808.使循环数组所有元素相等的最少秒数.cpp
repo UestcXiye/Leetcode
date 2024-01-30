@@ -33,7 +33,7 @@ public:
                 if (i + 1 < vec.size())
                     gap = vec[i + 1] - vec[i] - 1;
                 else
-                    gap = n - 1 - vec[i] + vec[0];
+                    gap = n - vec[i] - 1 + vec[0];
                 max_gap = max(max_gap, gap);
             }
             // 需要的时间，就是元素的最大间隔，除以 2 上取整
