@@ -52,7 +52,8 @@
         "chrono": "cpp",
         "thread": "cpp",
         "functional": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "climits": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

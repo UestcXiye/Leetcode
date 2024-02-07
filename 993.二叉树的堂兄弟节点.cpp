@@ -49,7 +49,7 @@ public:
             x_depth = depth;
             x_found = true;
         }
-        if (root->val == y)
+        else if (root->val == y)
         {
             y_parent = parent;
             y_depth = depth;
