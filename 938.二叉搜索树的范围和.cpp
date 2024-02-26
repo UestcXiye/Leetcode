@@ -24,19 +24,19 @@ private:
 public:
     int rangeSumBST(TreeNode *root, int low, int high)
     {
-        inOrder(root, sum, low, high);
+        inOrder(root, low, high);
         return sum;
     }
     // 辅函数 - 中序遍历
-    void inOrder(TreeNode *root, int &sum, const int low, const int high)
+    void inOrder(TreeNode *root, const int low, const int high)
     {
         if (root == nullptr)
             return;
-        inOrder(root->left, sum, low, high);
+        inOrder(root->left, low, high);
         int val = root->val;
         if (val >= low && val <= high)
             sum += root->val;
-        inOrder(root->right, sum, low, high);
+        inOrder(root->right, low, high);
     }
 };
 // @lc code=end
