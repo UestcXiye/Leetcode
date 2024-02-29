@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode.cn id=207 lang=cpp
+ * @lc app=leetcode.cn id=1462 lang=cpp
  *
- * [207] 课程表
+ * [1462] 课程表 IV
  */
 
 // @lc code=start
@@ -11,19 +11,20 @@
 class Solution
 {
 public:
-    bool canFinish(int numCourses, vector<vector<int>> &prerequisites)
+    vector<bool> checkIfPrerequisite(int numCourses, vector<vector<int>> &prerequisites, vector<vector<int>> &queries)
     {
         // 邻接矩阵
         vector<vector<int>> graph(numCourses, vector<int>());
         // 入度数组
         vector<int> inDegree(numCourses, 0);
-        // vector<int> ans;
+        vector<vector<bool>> isPre(numCourses, vector<bool>(numCourses, false));
 
         // 初始化邻接矩阵和入度数组
         for (vector<int> &p : prerequisites)
         {
-            graph[p[1]].push_back(p[0]);
-            inDegree[p[0]]++;
+            int from = p[0], to = p[1];
+            graph[from].push_back(to);
+            inDegree[to]++;
         }
 
         queue<int> q;
@@ -38,9 +39,15 @@ public:
             // 并且把它指向的课程的入度各减 1
             int u = q.front();
             q.pop();
-            // ans.push_back(u);
+
             for (auto &v : graph[u])
             {
+                // 存在一条 u->v 边
+                isPre[u][v] = true;
+                // 更新所有 i->u->v 的路径
+                for (int i = 0; i < numCourses; i++)
+                    isPre[i][v] = isPre[i][v] | isPre[i][u];
+
                 inDegree[v]--;
                 // 有课程的所有前置必修课都已修完（即入度为 0），
                 // 我们把这个节点加入队列中
@@ -49,15 +56,14 @@ public:
             }
         }
 
-        // 当队列的节点都被处理完时，说明所有的节点都已排好序，
-        // 或因图中存在循环而无法上完所有课程
-        for (int &in : inDegree)
+        vector<bool> ans;
+        for (auto &query : queries)
         {
-            // 不可能完成所有课程
-            if (in != 0)
-                return false;
+            int from = query[0], to = query[1];
+            ans.push_back(isPre[from][to]);
         }
-        return true;
+
+        return ans;
     }
 };
 // @lc code=end
