@@ -22,7 +22,9 @@ public:
             g[y].push_back(x);
         }
         // size[i] 为 子树 i 的大小
-        vector<int> size(n, 1); // 注意这里初始化成 1 了，下面只需要累加儿子的子树大小
+        // 注意这里初始化成 1 了，下面只需要累加儿子的子树大小
+        vector<int> size(n, 1);
+
         vector<int> answer(n);
 
         function<void(int, int, int)> dfs = [&](int x, int father, int depth)
@@ -37,6 +39,8 @@ public:
                 }
         };
 
+        // 求 0 到所有其他节点之间的距离之和
+        // 求每个子树的大小
         dfs(0, -1, 0); // 0 没有父节点
 
         function<void(int, int)> reRoot = [&](int x, int father)
@@ -52,6 +56,7 @@ public:
             }
         };
 
+        // 换根 DP
         reRoot(0, -1); // 0 没有父节点
 
         return answer;
