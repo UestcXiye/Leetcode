@@ -8,7 +8,7 @@
 class Solution
 {
 public:
-    int minDistance(string word1, string word2)
+    int minDistance(string &word1, string &word2)
     {
         // 特判
         if (word1.empty())
@@ -16,17 +16,14 @@ public:
         if (word2.empty())
             return word1.size();
         int len1 = word1.size(), len2 = word2.size();
-        // 状态矩阵，并初始化
-        vector<vector<int>> dp(len1 + 1, vector<int>(len2 + 1, 0));
+        // 状态矩阵
         // dp[i,j]: word1到位置i为止，和word2到位置j为止，最少需要几步编辑
+        vector<vector<int>> dp(len1 + 1, vector<int>(len2 + 1, 0));
+        // 初始化
         for (int i = 0; i <= len1; i++)
-            for (int j = 0; j <= len2; j++)
-            {
-                if (i == 0)
-                    dp[i][j] = j;
-                else if (j == 0)
-                    dp[i][j] = i;
-            }
+            dp[i][0] = i;
+        for (int j = 0; j <= len2; j++)
+            dp[0][j] = j;
         // 状态转移
         for (int i = 1; i <= len1; i++)
             for (int j = 1; j <= len2; j++)
