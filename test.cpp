@@ -119,12 +119,53 @@ vector<int> bruteForce(string &s, string &pattern)
 	return res;
 }
 
+void quickSort(vector<int> &arr, int begin, int end)
+{
+	if (begin >= end)
+		return;
+
+	int left = begin, right = end;
+	// 选区间最左边的元素作为主元
+	int pivot = arr[left];
+
+	while (left < right)
+	{
+		while (left < right && arr[right] >= pivot)
+			right--;
+		// 跳出此循环，代表右指针找到了比 pivot 小的数字
+		if (left < right)
+			arr[left] = arr[right];
+
+		while (left < right && arr[left] <= pivot)
+			left++;
+		// 跳出此循环，代表左指针找到了比 pivot 大的数字
+		if (left < right)
+			arr[right] = arr[left];
+
+		// 左右指针相遇，放入 pivot
+		if (left == right)
+			arr[left] = pivot;
+	}
+
+	// 分治
+	quickSort(arr, begin, left - 1);
+	quickSort(arr, left + 1, end);
+}
+
 int main()
 {
-	string s = "abdcabcabcd";
-	string pattern = "abc";
-	vector<int> ans = kmp(s, pattern);
-	PrintVector(ans);
+	// string s = "abdcabcabcd";
+	// string pattern = "abc";
+	// vector<int> ans = kmp(s, pattern);
+	// PrintVector(ans);
+
+	vector<int> arr = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+	quickSort(arr, 0, 10);
+	for (auto x : arr)
+	{
+		cout << x << " ";
+	}
+	cout << endl;
 
 	system("pause");
 	return 0;
