@@ -27,6 +27,8 @@
 //     }
 // };
 
+// 单调栈-从左到右
+
 class Solution
 {
 public:
@@ -37,17 +39,42 @@ public:
         stack<int> indices;
         for (int i = 0; i < n; i++)
         {
-            while (!indices.empty())
+            int cur = temperatures[i];
+            // 当前温度>栈顶下标的温度
+            while (!indices.empty() && cur > temperatures[indices.top()])
             {
-                int preIndex = indices.top();
-                if (temperatures[i] <= temperatures[preIndex])
-                    break;
+                // 取出栈顶元素，更新对应下标的间隔天数
+                int j = indices.top();
                 indices.pop();
-                answer[preIndex] = i - preIndex;
+                answer[j] = i - j;
             }
             indices.push(i);
         }
         return answer;
     }
 };
+
+// 单调栈-从右到左
+
+// class Solution
+// {
+// public:
+//     vector<int> dailyTemperatures(vector<int> &temperatures)
+//     {
+//         int n = temperatures.size();
+//         vector<int> ans(n);
+//         stack<int> st;
+//         for (int i = n - 1; i >= 0; i--)
+//         {
+//             int t = temperatures[i];
+//             // 当前温度大于等于之前的最大温度，小于等于当前温度的栈中温度全部全掉
+//             while (!st.empty() && t >= temperatures[st.top()])
+//                 st.pop();
+//             if (!st.empty())
+//                 ans[i] = st.top() - i;
+//             st.push(i);
+//         }
+//         return ans;
+//     }
+// };
 // @lc code=end
