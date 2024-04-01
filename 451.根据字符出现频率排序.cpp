@@ -10,23 +10,19 @@ class Solution
 public:
     string frequencySort(string s)
     {
-        unordered_map<char, int> counts;
-        int maxCount = 0;
-        for (const char &c : s)
-        {
-            counts[c]++;
-            maxCount = max(maxCount, counts[c]);
-        }
-        vector<vector<char>> buckets(maxCount + 1);
-        for (const auto &p : counts)
-            buckets[p.second].push_back(p.first);
+        unordered_map<char, int> cnt;
+        for (char &c : s)
+            cnt[c]++;
+        vector<pair<char, int>> vp;
+        for (auto &[ch, freq] : cnt)
+            vp.push_back(make_pair(ch, freq));
+        sort(vp.begin(), vp.end(), [&](const auto &p1, const auto &p2)
+             { return p1.second > p2.second; });
         string ans;
-        for (int i = maxCount; i > 0; i--)
+        for (auto &p : vp)
         {
-            int count = i;
-            for (const char &c : buckets[i])
-                for (int j = 0; j < count; j++)
-                    ans += c;
+            for (int i = 0; i < p.second; i++)
+                ans.push_back(p.first);
         }
         return ans;
     }
