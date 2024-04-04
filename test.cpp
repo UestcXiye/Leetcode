@@ -159,13 +159,22 @@ int main()
 	// vector<int> ans = kmp(s, pattern);
 	// PrintVector(ans);
 
-	vector<int> arr = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
-	quickSort(arr, 0, 10);
-	for (auto x : arr)
+	// vector<int> arr = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
+	// quickSort(arr, 0, 10);
+	// for (auto x : arr)
+	// {
+	// 	cout << x << " ";
+	// }
+	// cout << endl;
+	vector<int> nums = {4, 3, 2, 7, 8, 2, 3, 1};
+	int n = nums.size();
+	for (int i = 0; i < n; i++)
 	{
-		cout << x << " ";
+		while (nums[i] != nums[nums[i] - 1])
+		{
+			swap(nums[i], nums[nums[i] - 1]);
+		}
 	}
-	cout << endl;
 
 	system("pause");
 	return 0;
