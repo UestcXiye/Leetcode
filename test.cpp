@@ -166,15 +166,26 @@ int main()
 	// 	cout << x << " ";
 	// }
 	// cout << endl;
-	vector<int> nums = {4, 3, 2, 7, 8, 2, 3, 1};
-	int n = nums.size();
-	for (int i = 0; i < n; i++)
+
+	vector<int> possible = {1, 1};
+
+	int n = possible.size();
+	vector<int> preSum(n + 1, 0);
+	for (int i = 1; i <= n; i++)
 	{
-		while (nums[i] != nums[nums[i] - 1])
-		{
-			swap(nums[i], nums[nums[i] - 1]);
-		}
+		int x = possible[i - 1] > 0 ? 1 : -1;
+		preSum[i] = preSum[i - 1] + x;
 	}
+
+	int ans = 0;
+	for (int i = 1; i <= n; i++)
+	{
+		int score1 = preSum[i] - preSum[0];
+		int score2 = preSum[n] - preSum[i];
+		if (score1 > score2)
+			ans = i;
+	}
+	cout << ans << endl;
 
 	system("pause");
 	return 0;
