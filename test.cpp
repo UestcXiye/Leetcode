@@ -167,26 +167,30 @@ int main()
 	// }
 	// cout << endl;
 
-	vector<int> possible = {1, 1};
+	vector<int> nums = {2, 5, 6, 8, 5};
 
-	int n = possible.size();
-	vector<int> preSum(n + 1, 0);
-	for (int i = 1; i <= n; i++)
+	int n = nums.size(), k = 7;
+	sort(nums.begin(), nums.end());
+	int median = 0;
+	if (n % 2)
+		median = nums[n / 2];
+	else
+		median = max(nums[n / 2 - 1], nums[n / 2]);
+	long long op = 0;
+	op += abs(median - k);
+	int i = n / 2 - 1;
+	while (i >= 0 && nums[i] > k)
 	{
-		int x = possible[i - 1] > 0 ? 1 : -1;
-		preSum[i] = preSum[i - 1] + x;
+		op += nums[i] - k;
+		i--;
 	}
-
-	int ans = 0;
-	for (int i = 1; i <= n; i++)
+	i = n / 2 + 1;
+	while (i < n && nums[i] < k)
 	{
-		int score1 = preSum[i] - preSum[0];
-		int score2 = preSum[n] - preSum[i];
-		if (score1 > score2)
-			ans = i;
+		op += k - nums[i];
+		i++;
 	}
-	cout << ans << endl;
-
+	cout << op << endl;
 	system("pause");
 	return 0;
 }
