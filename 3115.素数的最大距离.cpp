@@ -5,6 +5,9 @@
  */
 
 // @lc code=start
+
+// 双指针
+
 class Solution
 {
 private:
@@ -25,7 +28,7 @@ public:
             leftPrimeIdx++;
         while (rightPrimeIdx >= 0 && !isPrime(nums[rightPrimeIdx]))
             rightPrimeIdx--;
-        return leftPrimeIdx == rightPrimeIdx ? 0 : rightPrimeIdx - leftPrimeIdx;
+        return rightPrimeIdx - leftPrimeIdx;
     }
 };
 // @lc code=end
