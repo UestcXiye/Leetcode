@@ -7,6 +7,21 @@
 // @lc code=start
 class Solution
 {
+private:
+    int getLen(int x)
+    {
+        if (x == 0)
+            return 1;
+        int len = x < 0 ? 1 : 0;
+        int number = abs(x);
+        while (number)
+        {
+            number /= 10;
+            len++;
+        }
+        return len;
+    }
+
 public:
     vector<int> findColumnWidth(vector<vector<int>> &grid)
     {
@@ -17,22 +32,8 @@ public:
         for (int i = 0; i < m; i++)
             for (int j = 0; j < n; j++)
             {
-                int len;
-                if (grid[i][j] == 0)
-                    len = 1;
-                else
-                {
-                    len = 0;
-                    int number = abs(grid[i][j]);
-                    while (number)
-                    {
-                        number /= 10;
-                        len++;
-                    }
-                    if (grid[i][j] < 0)
-                        len++;
-                }
-                lens[i][j] = len;
+
+                lens[i][j] = getLen(grid[i][j]);
             }
         // for (int i = 0; i < m; i++)
         // {
