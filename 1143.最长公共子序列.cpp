@@ -33,50 +33,83 @@
 
 // 动态规划
 
-// class Solution
-// {
-// public:
-//     int longestCommonSubsequence(string text1, string text2)
-//     {
-//         // 特判
-//         if (text1.empty() || text2.empty())
-//             return 0;
-//         int len1 = text1.size(), len2 = text2.size();
-//         // 状态数组，并初始化
-//         //  dp[i][j]表示到text1的位置i为止、到text2的位置j为止、最长的公共子序列长度
-//         vector<vector<int>> dp(len1 + 1, vector<int>(len2 + 1, 0));
-//         // 状态转移
-//         for (int i = 1; i <= len1; i++)
-//             for (int j = 1; j <= len2; j++)
-//             {
-//                 if (text1[i - 1] == text2[j - 1])
-//                     dp[i][j] = dp[i - 1][j - 1] + 1;
-//                 else
-//                     dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
-//             }
-//         return dp[len1][len2];
-//     }
-// };
-
-// 动态规划：空间优化
-
 class Solution
 {
 public:
     int longestCommonSubsequence(string s, string t)
     {
-        int n = s.length(), m = t.length(), dp[2][m + 1];
-        memset(dp, 0, sizeof(dp));
-        for (int i = 0; i < n; i++)
-            for (int j = 0; j < m; j++)
+        // 特判
+        if (s.empty() || t.empty())
+            return 0;
+        int n = s.size(), m = t.size();
+        //  dp[i][j]表示到s的位置i为止、到t的位置j为止、最长的公共子序列长度
+        vector<vector<int>> dp(n + 1, vector<int>(m + 1));
+        // state
+        vector<vector<int>> state(n + 1, vector<int>(m + 1));
+        // 初始化
+        for (int i = 0; i <= n; i++)
+            dp[i][0] = 0;
+        for (int j = 0; j <= m; j++)
+            dp[0][j] = 0;
+        // 状态转移
+        for (int i = 1; i <= n; i++)
+            for (int j = 1; j <= m; j++)
             {
-                if (s[i] == t[j])
-                    dp[(i + 1) % 2][j + 1] = dp[i % 2][j] + 1;
+                if (s[i - 1] == t[j - 1])
+                {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                    state[i][j] = 0; // 为了后面回溯，作为公共子序列的判定
+                }
+                else if (dp[i - 1][j] >= dp[i][j - 1])
+                {
+                    dp[i][j] = dp[i - 1][j];
+                    state[i][j] = 1; // 为了后面向上回溯，向上寻找子序列的判定
+                }
                 else
-                    dp[(i + 1) % 2][j + 1] = max(dp[i % 2][j + 1], dp[(i + 1) % 2][j]);
+                {
+                    dp[i][j] = dp[i][j - 1];
+                    state[i][j] = 2; // 为了后面向左回溯，向左寻找子序列的判定
+                }
             }
-        return dp[n % 2][m];
+        int lscLen = dp[n][m];
+        string lsc = string(lscLen, 0);
+        int i = n, j = m, k = lscLen - 1;
+        while (k >= 0)
+        {
+            if (state[i][j] == 0)
+            {
+                lsc[k--] = s[i - 1];
+                i--;
+                j--;
+            }
+            else if (state[i][j] == 1)
+                i--;
+            else
+                j--;
+        }
+        return lscLen;
     }
 };
+
+// 动态规划：空间优化
+
+// class Solution
+// {
+// public:
+//     int longestCommonSubsequence(string s, string t)
+//     {
+//         int n = s.length(), m = t.length(), dp[2][m + 1];
+//         memset(dp, 0, sizeof(dp));
+//         for (int i = 0; i < n; i++)
+//             for (int j = 0; j < m; j++)
+//             {
+//                 if (s[i] == t[j])
+//                     dp[(i + 1) % 2][j + 1] = dp[i % 2][j] + 1;
+//                 else
+//                     dp[(i + 1) % 2][j + 1] = max(dp[i % 2][j + 1], dp[(i + 1) % 2][j]);
+//             }
+//         return dp[n % 2][m];
+//     }
+// };
 
 // @lc code=end
