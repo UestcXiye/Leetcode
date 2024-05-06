@@ -53,7 +53,8 @@
         "thread": "cpp",
         "functional": "cpp",
         "numeric": "cpp",
-        "climits": "cpp"
+        "climits": "cpp",
+        "stack": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
