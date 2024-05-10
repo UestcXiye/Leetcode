@@ -1,35 +1,44 @@
 #include <iostream>
-#include <string>
-#include <cctype>
-using namespace std;
-
-// 方法一：使用toupper()
-
-string toUpperMethod1(const string &s)
+#include <vector>
+#include <unordered_set>
+#include <stdlib.h>
+// 递归生成环形数组的所有可能组合
+void generateCircularArrays(int n, int m, std::vector<int> &current, std::unordered_set<std::vector<int>> &uniqueArrays)
 {
-	string res = s;
-	for (char &c : res)
-		if (islower(c))
-			c = toupper(c);
-	return res;
-}
+	if (current.size() == m)
+	{
+		uniqueArrays.insert(current);
+		return;
+	}
 
-// 方法二：算术运算
-
-string toUpperMethod2(const string &s)
-{
-	string res = s;
-	for (char &c : res)
-		if (islower(c))
-			c -= 'a' - 'A';
-	return res;
+	for (int i = 1; i <= n; ++i)
+	{
+		// 如果当前元素不在环形数组中，添加当前元素并继续递归生成下一个位置的元素
+		if (std::find(current.begin(), current.end(), i) == current.end())
+		{
+			current.push_back(i);
+			generateCircularArrays(n, m, current, uniqueArrays);
+			current.pop_back();
+		}
+	}
 }
 
 int main()
 {
-	string s = "abc123";
-	cout << toUpperMethod1(s) << endl;
-	cout << toUpperMethod2(s) << endl;
-	getchar();
+	int n, m;
+
+	std::cin >> n;
+
+	std::cin >> m;
+
+	std::vector<int> current;
+	std::unordered_set<std::vector<int>> uniqueArrays;
+
+	// 生成环形数组的所有可能组合
+	generateCircularArrays(n, m, current, uniqueArrays);
+
+	// 输出不同的环形数组数量
+	std::cout << "有 " << uniqueArrays.size() << " 种不同的环形数组。" << std::endl;
+	system("pause");
 	return 0;
 }
