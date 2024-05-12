@@ -2,26 +2,40 @@
 #include <vector>
 #include <unordered_set>
 #include <stdlib.h>
-// 递归生成环形数组的所有可能组合
-void generateCircularArrays(int n, int m, std::vector<int> &current, std::unordered_set<std::vector<int>> &uniqueArrays)
-{
-	if (current.size() == m)
-	{
-		uniqueArrays.insert(current);
-		return;
-	}
 
-	for (int i = 1; i <= n; ++i)
+class Solution
+{
+public:
+	int maxPointsInsideSquare(vector<vector<int>> &points, string s)
 	{
-		// 如果当前元素不在环形数组中，添加当前元素并继续递归生成下一个位置的元素
-		if (std::find(current.begin(), current.end(), i) == current.end())
+		vector<pair<int, char>> combined;
+		for (int i = 0; i < points.size(); i++)
 		{
-			current.push_back(i);
-			generateCircularArrays(n, m, current, uniqueArrays);
-			current.pop_back();
+			int mx = max(abs(points[i][0]), abs(points[i][1]));
+			combined.push_back(mx, s[i]);
 		}
+		sort(combined.begin(), combined.end(),
+			 [&](const pair<int, char> &p1, const pair<int, char> &p2)
+			 {
+				 return p1.first < p2.first;
+			 });
+		unordered_set<char> set;
+		int bound = 0, ans = 0;
+		for (auto &entry : combined)
+		{
+			if (entry.first > k)
+			{
+				k = entry.first;
+				ans = set.size();
+			}
+			if (set.count(entry.second) == 0)
+				set.push(entry.second);
+			else
+				break;
+		}
+		return ans;
 	}
-}
+};
 
 int main()
 {
