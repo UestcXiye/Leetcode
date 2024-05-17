@@ -54,7 +54,8 @@
         "functional": "cpp",
         "numeric": "cpp",
         "climits": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "random": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
