@@ -1,96 +1,30 @@
-#include <iostream>
-#include <string>
-#include <stdlib.h>
+#include <bits/stdc++.h>
 using namespace std;
-
-class Expression
-{
-public:
-	virtual double evaluate() = 0;
-};
-
-class Number : public Expression
-{
-private:
-	double val;
-
-public:
-	Number(double v) : val(v){};
-
-	virtual double evaluate()
-	{
-		return val;
-	}
-};
-
-class Operator : public Expression
-{
-protected:
-	Expression *left;
-	Expression *right;
-
-public:
-	Operator(Expression *l, Expression *r) : left(l), right(r){};
-};
-
-class AddOperator : public Operator
-{
-public:
-	AddOperator(Expression *l, Expression *r) : Operator(l, r){};
-
-	virtual double evaluate()
-	{
-		return left->evaluate() + right->evaluate();
-	}
-};
-
-class SubOperator : public Operator
-{
-public:
-	SubOperator(Expression *l, Expression *r) : Operator(l, r){};
-
-	virtual double evaluate()
-	{
-		return left->evaluate() - right->evaluate();
-	}
-};
-
-class MultOperator : public Operator
-{
-public:
-	MultOperator(Expression *l, Expression *r) : Operator(l, r){};
-
-	virtual double evaluate()
-	{
-		return left->evaluate() * right->evaluate();
-	}
-};
-
-class DivideOperator : public Operator
-{
-public:
-	DivideOperator(Expression *l, Expression *r) : Operator(l, r){};
-
-	virtual double evaluate()
-	{
-		if (right->evaluate())
-			return left->evaluate() / right->evaluate();
-		else
-			return -1;
-	}
-};
 
 int main()
 {
-	// 构建一个算数表达式: (2 + 3) * 4 - 20 / 5
-	Expression *expression = new SubOperator(
-		new MultOperator(
-			new AddOperator(new Number(2), new Number(3)), new Number(4)),
-		new DivideOperator(new Number(20), new Number(5)));
+	int m = 4,n=4;
+	int grid[m][n] = {
+		{9, 5, 7, 3},
+		{8, 9, 6, 1},
+		{6, 7, 14, 3},
+		{2, 5, 3, 1}};
 
-	// 计算表达式的结果
-	double result = expression->evaluate();
-	cout << "(2 + 3) * 4 - 20 / 5 = " << result << endl;
+	int dp[m][n];
+	memset(dp, INT_MAX, sizeof(dp));
+	int ans = INT_MIN;
+	for (int i = 0; i < m; i++)
+		for (int j = 0; j < n; j++)
+		{
+			int minGrid = INT_MAX;
+			if (i > 0)
+				minGrid = min(minGrid, dp[i - 1][j]);
+			if (j > 0)
+				minGrid = min(minGrid, dp[i][j - 1]);
+			ans = max(ans, grid[i][j] - minGrid);
+			dp[i][j] = min(grid[i][j], minGrid);
+		}
+	cout << ans << endl;
 
 	system("pause");
 	return 0;
