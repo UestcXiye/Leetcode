@@ -55,7 +55,9 @@
         "numeric": "cpp",
         "climits": "cpp",
         "stack": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "bitset": "cpp",
+        "regex": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

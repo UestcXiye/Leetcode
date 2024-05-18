@@ -3,7 +3,7 @@ using namespace std;
 
 int main()
 {
-	int m = 4,n=4;
+	int m = 4, n = 4;
 	int grid[m][n] = {
 		{9, 5, 7, 3},
 		{8, 9, 6, 1},
