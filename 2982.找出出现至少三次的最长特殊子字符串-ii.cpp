@@ -17,27 +17,16 @@ public:
         if (s.empty())
             return 0;
 
-        vector<int> groups[26];
         int n = s.length();
-        // int count = 0;
-        // for (int i = 0; i < n; i++)
-        // {
-        //     count++;
-        //     if (i + 1 == n || s[i] != s[i + 1])
-        //     {
-        //         groups[s[i] - 'a'].push_back(count); // 统计连续字符长度
-        //         count = 0;
-        //     }
-        // }
-
-        // 分组循环
-        for (int i = 0; i < n;)
+        vector<int> groups[26]; // 各字符的子串长度
+        int i = 0;
+        for (; i < n;)
         {
-            int start = i;
-            i++;
-            while (i < n && s[i] == s[i - 1])
-                i++;
-            groups[s[i - 1] - 'a'].push_back(i - start); // 统计连续字符长度
+            int j = i + 1;
+            while (j < n && s[j] == s[j - 1])
+                j++;
+            groups[s[i] - 'a'].push_back(j - i);
+            i = j;
         }
 
         int ans = 0;
@@ -45,14 +34,14 @@ public:
         {
             if (group.empty())
                 continue;
-            // 降序排序
-            sort(group.begin(), group.end(), greater<int>());
-            // 假设还有两个空串
+            ranges::sort(group, greater<>());
             group.push_back(0);
             group.push_back(0);
             ans = max({ans, group[0] - 2, min(group[0] - 1, group[1]), group[2]});
         }
-        return ans == 0 ? -1 : ans;
+        if (ans == 0)
+            return -1;
+        return ans;
     }
 };
 
