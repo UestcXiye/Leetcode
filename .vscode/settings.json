@@ -58,7 +58,8 @@
         "random": "cpp",
         "bitset": "cpp",
         "regex": "cpp",
-        "forward_list": "cpp"
+        "forward_list": "cpp",
+        "complex": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
