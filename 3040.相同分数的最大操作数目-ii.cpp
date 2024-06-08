@@ -19,7 +19,7 @@ public:
         int n = nums.size();
         int memo[n][n];
 
-        auto helper = [&](int i, int j, int target) -> int
+        function<int(int, int, int)> helper = [&](int i, int j, int target) -> int
         {
             memset(memo, -1, sizeof(memo));
             function<int(int, int)> dfs = [&](int i, int j) -> int
@@ -32,11 +32,13 @@ public:
                     return res;
 
                 res = 0;
-
+                // 删除前两个数
                 if (nums[i] + nums[i + 1] == target)
                     res = max(res, dfs(i + 2, j) + 1);
+                // 删除后两个数
                 if (nums[j - 1] + nums[j] == target)
                     res = max(res, dfs(i, j - 2) + 1);
+                // 删除第一个和最后一个数
                 if (nums[i] + nums[j] == target)
                     res = max(res, dfs(i + 1, j - 1) + 1);
                 return res;
@@ -44,11 +46,11 @@ public:
             return dfs(i, j);
         };
 
-        // 最前面两个
+        // 删除前两个数
         int res1 = helper(2, n - 1, nums[0] + nums[1]);
-        // 最后两个
+        // 删除后两个数
         int res2 = helper(0, n - 3, nums[n - 2] + nums[n - 1]);
-        // 第一个和最后一个
+        // 删除第一个和最后一个数
         int res3 = helper(1, n - 2, nums[0] + nums[n - 1]);
 
         int ans = max({res1, res2, res3}) + 1; // 加上第一次操作
