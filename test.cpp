@@ -27,7 +27,7 @@ int main()
 		{
 			if (stk.empty())
 			{
-				cout << "À¨ºÅÆ¥ÅäÊ§°Ü" << endl;
+				cout << "æ‹¬å·åŒ¹é…å¤±è´¥" << endl;
 				system("pause");
 				return 0;
 			}
@@ -36,25 +36,25 @@ int main()
 				stk.pop();
 			else
 			{
-				cout << "À¨ºÅÆ¥ÅäÊ§°Ü" << endl;
+				cout << "æ‹¬å·åŒ¹é…å¤±è´¥" << endl;
 				system("pause");
 				return 0;
 			}
 		}
 		else
 		{
-			cout << "À¨ºÅ²»ºÏ·¨" << endl;
+			cout << "æ‹¬å·ä¸åˆæ³•" << endl;
 			system("pause");
 			return 0;
 		}
 	}
 	if (!stk.empty())
 	{
-		cout << "À¨ºÅÆ¥ÅäÊ§°Ü" << endl;
+		cout << "æ‹¬å·åŒ¹é…å¤±è´¥" << endl;
 		system("pause");
 		return 0;
 	}
-	cout << "À¨ºÅÆ¥Åä³É¹¦" << endl;
+	cout << "æ‹¬å·åŒ¹é…æˆåŠŸ" << endl;
 	system("pause");
 	return 0;
 }
