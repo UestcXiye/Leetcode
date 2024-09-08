@@ -1,60 +1,60 @@
 #include <iostream>
-#include <stack>
-#include <stdlib.h>
+#include <vector>
+#include <cmath>
+#include <climits>
+#include <cstdlib>
 using namespace std;
 
-bool match(char &c1, char &c2)
+// 回溯算法
+void backtrack(int N, vector<int> &current, vector<int> &best, int &minCount, int start)
 {
-	if (c1 == '(' && c2 == ')')
-		return true;
-	else
-		return false;
+	int currentSum = 0;
+	for (int num : current)
+	{
+		currentSum += num * num * num;
+	}
+
+	if (currentSum > N)
+		return;
+	if (currentSum == N)
+	{
+		if (current.size() < minCount)
+		{
+			minCount = current.size();
+			best = current;
+		}
+		return;
+	}
+
+	for (int i = start; i * i * i <= N; ++i)
+	{
+		current.push_back(i);
+		backtrack(N, current, best, minCount, i);
+		current.pop_back();
+	}
+}
+
+vector<int> findMinKIntegers(int N)
+{
+	vector<int> best, current;
+	int minCount = INT_MAX;
+	backtrack(N, current, best, minCount, 1);
+	return best;
 }
 
 int main()
 {
-	char exp[1000];
-	int n;
-	cin >> n;
-	for (int i = 0; i < n; i++)
-		cin >> exp[i];
-	stack<char> stk;
-	for (int i = 0; i < n; i++)
+	int N;
+	cin >> N;
+
+	vector<int> result = findMinKIntegers(N);
+
+	for (int num : result)
 	{
-		if (exp[i] == '(')
-			stk.push(exp[i]);
-		else if (exp[i] == ')')
-		{
-			if (stk.empty())
-			{
-				cout << "括号匹配失败" << endl;
-				system("pause");
-				return 0;
-			}
-			char c = stk.top();
-			if (match(c, exp[i]))
-				stk.pop();
-			else
-			{
-				cout << "括号匹配失败" << endl;
-				system("pause");
-				return 0;
-			}
-		}
-		else
-		{
-			cout << "括号不合法" << endl;
-			system("pause");
-			return 0;
-		}
+		cout << num << " ";
 	}
-	if (!stk.empty())
-	{
-		cout << "括号匹配失败" << endl;
-		system("pause");
-		return 0;
-	}
-	cout << "括号匹配成功" << endl;
+	cout << endl;
+
 	system("pause");
 	return 0;
 }

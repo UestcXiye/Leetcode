@@ -59,7 +59,9 @@
         "bitset": "cpp",
         "regex": "cpp",
         "forward_list": "cpp",
-        "complex": "cpp"
+        "complex": "cpp",
+        "future": "cpp",
+        "shared_mutex": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
