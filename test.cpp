@@ -92,9 +92,56 @@ int maxScore(vector<vector<int>> &grid)
 
 int main()
 {
-	// vector<vector<int>> grid = {{1, 2, 3}, {4, 3, 2}, {1, 1, 1}};
-	vector<vector<int>> grid = {{8, 7, 6}, {8, 3, 2}};
-	cout << maxScore(grid) << endl;
+	string s;
+	getline(cin, s);
+
+	// 事先检查
+	for (const char &c : s)
+	{
+		if (!isdigit(c) && c != ' ' && c != '+' && c != '-')
+		{
+			cout << 0 << endl;
+			return 0;
+		}
+	}
+	for (int i = 0; i < s.length(); i++)
+	{
+		if (s[i] == '+' || s[i] == '-')
+			if (s[i - 1] != ' ' || s[i + 1] != ' ')
+			{
+				cout << 0 << endl;
+				return 0;
+			}
+	}
+
+	istringstream iss(s);
+	char op = '+';
+	int res = 0;
+
+	while (iss)
+	{
+		int num;
+		char ch;
+		// 读取数字
+		if (!(iss >> num))
+		{
+			cout << 0 << endl;
+			return 0;
+		}
+		if (op == '+')
+			res += num;
+		else if (op == '-')
+			res -= num;
+		iss >> ch; // 读取操作符
+		if (ch == '+' || ch == '-')
+			op = ch;
+		else
+		{
+			cout << 0 << endl;
+			return 0;
+		}
+	}
+	cout << res << endl;
 
 	system("pause");
 	return 0;
