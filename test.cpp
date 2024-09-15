@@ -1,147 +1,178 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <queue>
+#include <vector>
+#include <algorithm>
+#include <climits>
 #include <cstdlib>
 using namespace std;
 
-class Singleton
+// 截取 Times 中的日期
+string getDateFromTimesLine(string &input)
 {
-private:
-	static Singleton *instance;
-	static mutex m;
+	size_t startPos = input.find('[');
+	if (startPos == string::npos)
+		return "";
+	size_t endPos = input.find(' ', startPos);
+	if (endPos == string::npos)
+		return input.substr(startPos);
+	return input.substr(startPos + 1, endPos - startPos - 1);
+}
+// 截取 Data 中的日期
+string getDateFromDataLine(string &input)
+{
+	size_t startPos = input.find('[');
+	if (startPos == string::npos)
+		return "";
+	size_t endPos = input.find('.', startPos);
+	if (endPos == string::npos)
+		return input.substr(startPos);
+	return input.substr(startPos + 2, endPos - startPos - 1);
+}
 
-	Singleton() {}
-	Singleton(const Singleton &) = delete;
-	Singleton &operator=(const Singleton &) = delete;
-
+class Solution
+{
 public:
-	~Singleton() {}
-	static Singleton *getInstance()
+	/**
+	 * 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+	 *
+	 * 增量转全量
+	 * @param lines string字符串vector
+	 * @return string字符串vector
+	 */
+	vector<string> convert(vector<string> &lines)
 	{
-		if (instance == nullptr)
+		// write code here
+		if (lines.size() % 8 != 0)
+			return {};
+		int n = lines.size() / 8;
+		double last_vol = -1.0;
+		vector<string> results;
+		for (int i = 0; i < n; i++)
 		{
-			m.lock();
-			if (instance == nullptr)
+			vector<string> fields = getFields(getFieldsString(lines[i * 8 + 5]), ',');
+			vector<string> data = getData(getDataString(lines[i * 8 + 7]), ',');
+
+			int date_idx = getDateIndex(fields);
+			if (getDateFromTimesLine(lines[i * 8 + 6]) != getDateWithoutPoint(
+															  data[date_idx]))
+				continue;
+
+			int vol_idx = getVolIndex(fields);
+			if (stod(data[vol_idx]) < last_vol)
+				continue;
+
+			last_vol = stod(data[vol_idx]);
+			string res;
+			res += lines[i * 8 + 6].substr(lines[i * 8 + 6].find('=') + 1);
+			res += ("[CODE=" + getCodesFromCodesLine(lines[i * 8 + 4]) + "]");
+			for (int j = 0; j < fields.size(); j++)
 			{
-				instance = new Singleton();
+				res += "[" + fields[j] + "=" + data[j] + "]";
 			}
-			m.unlock();
+			results.push_back(res);
 		}
-		return instance;
+		return results;
+	}
+	vector<string> getFields(const string &s, char c)
+	{
+		vector<string> result;
+		istringstream stream(s);
+		string token;
+		while (std::getline(stream, token, c))
+		{
+			result.push_back(token);
+		}
+		return result;
+	}
+	// 截取 Fields 字符串
+	string getFieldsString(string &input)
+	{
+		size_t startPos = input.find('[');
+		if (startPos == string::npos)
+			return "";
+		size_t endPos = input.find(']', startPos);
+		if (endPos == string::npos)
+			return input.substr(startPos);
+		return input.substr(startPos + 1, endPos - startPos - 1);
+	}
+	vector<string> getData(const string &s, char c)
+	{
+		vector<string> result;
+		istringstream stream(s);
+		string token;
+		while (std::getline(stream, token, c))
+		{
+			int len = token.length();
+			result.push_back(token.substr(1, len - 2));
+		}
+		return result;
+	}
+	// 截取 Data 字符串
+	string getDataString(string &input)
+	{
+		int len = input.length();
+		return input.substr(9, len - 10);
+	}
+	int getDateIndex(vector<string> &fields)
+	{
+		int date_idx = -1;
+		for (int i = 0; i < fields.size(); i++)
+			if (fields[i] == "RT_DATE")
+			{
+				date_idx = i;
+				break;
+			}
+		return date_idx;
+	}
+	int getVolIndex(vector<string> &fields)
+	{
+		int date_idx = -1;
+		for (int i = 0; i < fields.size(); i++)
+			if (fields[i] == "RT_VOL")
+			{
+				date_idx = i;
+				break;
+			}
+		return date_idx;
+	}
+	// 截取 Times 中的日期
+	string getDateFromTimesLine(string &input)
+	{
+		size_t startPos = input.find('[');
+		if (startPos == string::npos)
+			return "";
+		size_t endPos = input.find(' ', startPos);
+		if (endPos == string::npos)
+			return input.substr(startPos);
+		return input.substr(startPos + 1, endPos - startPos - 1);
+	}
+	// 截取 Data 中的日期的整数部分
+	string getDateWithoutPoint(string &input)
+	{
+		size_t startPos = 0;
+		size_t endPos = input.find('.', startPos);
+		if (endPos == string::npos)
+			return input.substr(startPos);
+		return input.substr(startPos, endPos - startPos - 1);
+	}
+	// 截取 Codes
+	string getCodesFromCodesLine(string &input)
+	{
+		size_t startPos = input.find('[');
+		if (startPos == string::npos)
+			return "";
+		size_t endPos = input.find(']', startPos);
+		if (endPos == string::npos)
+			return input.substr(startPos);
+		return input.substr(startPos + 1, endPos - startPos - 1);
 	}
 };
 
-Singleton *Singleton::instance = nullptr;
-mutex Singleton::m;
-
-void quickSort(vector<int> &arr, int begin, int end)
-{
-	if (begin >= end)
-		return;
-	int left = begin, right = end;
-	int pivot = arr[left];
-
-	while (left < right)
-	{
-		while (left < right && arr[right] >= pivot)
-			right--;
-		if (left < right)
-			arr[left] = arr[right];
-		while (left < right && arr[left] <= pivot)
-			left++;
-		if (left < right)
-			arr[right] = arr[left];
-
-		if (left == right)
-			arr[left] = pivot;
-
-		quickSort(arr, begin, left - 1);
-		quickSort(arr, left + 1, end);
-	}
-}
-
-int m, n;
-int ans = 0;
-
-void backtrace(int level, int score, unordered_set<int> s, vector<vector<int>> &grid)
-{
-	if (level == m)
-	{
-		ans = max(ans, score);
-		return;
-	}
-	for (int j = 0; j < n; j++)
-	{
-		if (s.count(grid[level][j]) == 0)
-		{
-			s.insert(grid[level][j]);
-			score += grid[level][j];
-			backtrace(level + 1, score, s, grid);
-			score -= grid[level][j];
-			s.erase(grid[level][j]);
-			backtrace(level + 1, score, s, grid);
-		}
-	}
-}
-
-int maxScore(vector<vector<int>> &grid)
-{
-	m = grid.size(), n = m ? grid[0].size() : 0;
-	unordered_set<int> s;
-	backtrace(0, 0, s, grid);
-	return ans;
-}
-
 int main()
 {
-	string s;
-	getline(cin, s);
-
-	// 事先检查
-	for (const char &c : s)
-	{
-		if (!isdigit(c) && c != ' ' && c != '+' && c != '-')
-		{
-			cout << 0 << endl;
-			return 0;
-		}
-	}
-	for (int i = 0; i < s.length(); i++)
-	{
-		if (s[i] == '+' || s[i] == '-')
-			if (s[i - 1] != ' ' || s[i + 1] != ' ')
-			{
-				cout << 0 << endl;
-				return 0;
-			}
-	}
-
-	istringstream iss(s);
-	char op = '+';
-	int res = 0;
-
-	while (iss)
-	{
-		int num;
-		char ch;
-		// 读取数字
-		if (!(iss >> num))
-		{
-			cout << 0 << endl;
-			return 0;
-		}
-		if (op == '+')
-			res += num;
-		else if (op == '-')
-			res -= num;
-		iss >> ch; // 读取操作符
-		if (ch == '+' || ch == '-')
-			op = ch;
-		else
-		{
-			cout << 0 << endl;
-			return 0;
-		}
-	}
-	cout << res << endl;
+	string s1 = "example[substring data]";
+	string s2 = ".Data=[[]]" cout << getDateFromTimesLine(s1) << endl;
+	;
 
 	system("pause");
 	return 0;
