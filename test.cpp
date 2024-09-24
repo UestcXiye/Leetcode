@@ -2,75 +2,66 @@
 #include <cstdlib>
 using namespace std;
 
-// 定义一个结构体来保存菜的总喜欢值和菜的编号
-struct Dish
+struct Node
 {
-	int index;
-	int totalLike;
+	int val;
+	Node *next;
+
+	Node() : val(0), next(nullptr) {}
+	Node(int x) : val(x), next(nullptr) {}
+	Node(int x, Node *n) : val(0), next(n) {}
 };
 
-// 按照 totalLike 降序排列，totalLike 相同则按照 index 升序排列
-bool compareDishes(const Dish &a, const Dish &b)
+int getLength(Node *head)
 {
-	if (a.totalLike == b.totalLike)
-		return a.index < b.index;
-	return a.totalLike > b.totalLike;
+	int len = 0;
+	Node *p = head;
+	while (p)
+	{
+		len++;
+		p = p->next;
+	}
+	return len;
+}
+
+bool check(Node *head)
+{
+	vector<int> arr;
+	Node *p = head;
+	while (p)
+	{
+		arr.push_back(p->val);
+		p = p->next;
+	}
+	int i = 0, j = arr.size() - 1;
+	for (; i <= j; i++, j--)
+		if (arr[i] != arr[j])
+			return false;
+	return true;
 }
 
 int main()
 {
-	int n, m;
-	cin >> n >> m;
-
-	vector<vector<int>> likes(n, vector<int>(m)); // 喜欢值矩阵
-	vector<Dish> dishes(m);						  // 每道菜的总喜欢值和对应的编号
-
-	// 读取喜欢值并计算每道菜的总喜欢值
-	for (int i = 0; i < m; ++i)
-		dishes[i].index = i;
-
-	for (int i = 0; i < n; ++i)
+	Node *head = new Node();
+	Node *p = head;
+	for (int i = 1; i < 6; i++)
 	{
-		for (int j = 0; j < m; ++j)
-		{
-			cin >> likes[i][j];
-			dishes[j].totalLike += likes[i][j];
-		}
+		Node *n = new Node(i);
+		p->next = n;
+		p = p->next;
+	}
+	for (int i = 5; i >= 0; i--)
+	{
+		Node *n = new Node(i);
+		p->next = n;
+		p = p->next;
 	}
 
-	// 按照总喜欢值从大到小排序
-	sort(dishes.begin(), dishes.end(), compareDishes);
-
-	vector<bool> selected(m, false); // 标记哪些菜已经被选过
-	int totalSum = 0;
-
-	// 小兴先点三道菜
-	for (int i = 0; i < 3; ++i)
-	{
-		totalSum += dishes[i].totalLike;
-		selected[dishes[i].index] = true;
-	}
-
-	// 其他每个人依次选择最喜欢的没被点过的菜
-	for (int i = 1; i < n; ++i)
-	{
-		int bestDish = -1;
-		int bestLike = -1;
-		for (int j = 0; j < m; ++j)
-		{
-			if (!selected[j] && likes[i][j] > bestLike)
-			{
-				bestLike = likes[i][j];
-				bestDish = j;
-			}
-		}
-		for (int k = 0; k < n; k++)
-			totalSum += likes[k][bestDish];
-		selected[bestDish] = true;
-	}
-
-	// 输出总喜欢值
-	cout << totalSum << endl;
+	cout << getLength(head) << endl;
+	if (check(head))
+		cout << "YES" << endl;
+	else
+		cout << "NO" << endl;
 
 	system("pause");
 	return 0;
