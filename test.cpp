@@ -2,66 +2,97 @@
 #include <cstdlib>
 using namespace std;
 
-struct Node
+int countPrimeFactors(int x)
 {
-	int val;
-	Node *next;
-
-	Node() : val(0), next(nullptr) {}
-	Node(int x) : val(x), next(nullptr) {}
-	Node(int x, Node *n) : val(0), next(n) {}
-};
-
-int getLength(Node *head)
-{
-	int len = 0;
-	Node *p = head;
-	while (p)
+	unordered_set<int> primeFactors;
+	for (int i = 2; i <= sqrt(x); i++)
 	{
-		len++;
-		p = p->next;
+		while (x % i == 0)
+		{
+			primeFactors.insert(i);
+			x /= i;
+		}
 	}
-	return len;
+	if (x > 1)
+		primeFactors.insert(x);
+	return primeFactors.size();
 }
 
-bool check(Node *head)
-{
-	vector<int> arr;
-	Node *p = head;
-	while (p)
-	{
-		arr.push_back(p->val);
-		p = p->next;
-	}
-	int i = 0, j = arr.size() - 1;
-	for (; i <= j; i++, j--)
-		if (arr[i] != arr[j])
-			return false;
-	return true;
-}
+// void dfs(int node, int parent, const vector<int> &primeFactorCounts, const vector<vector<int>> &g,
+// 		 unordered_set<int> &operations, unordered_map<int, vector<int>> &edgesToColor)
+// {
+// 	for (int neighbor : g[node])
+// 	{
+// 		if (neighbor == parent)
+// 			continue;
+// 		dfs(neighbor, node, primeFactorCounts, g, operations, edgesToColor);
+
+// 		if (primeFactorCounts[node] == primeFactorCounts[neighbor])
+// 		{
+// 			edgesToColor[node].push_back(neighbor);
+// 			edgesToColor[neighbor].push_back(node);
+// 		}
+// 	}
+
+// 	if (edgesToColor[node].size() > 0)
+// 		operations.insert(node);
+// }
 
 int main()
 {
-	Node *head = new Node();
-	Node *p = head;
-	for (int i = 1; i < 6; i++)
+	int n;
+	cin >> n;
+
+	vector<int> weights(n + 1);
+	vector<int> primeFactorCounts(n + 1);
+	for (int i = 1; i <= n; i++)
 	{
-		Node *n = new Node(i);
-		p->next = n;
-		p = p->next;
-	}
-	for (int i = 5; i >= 0; i--)
-	{
-		Node *n = new Node(i);
-		p->next = n;
-		p = p->next;
+		cin >> weights[i];
+		primeFactorCounts[i] = countPrimeFactors(weights[i]);
 	}
 
-	cout << getLength(head) << endl;
-	if (check(head))
-		cout << "YES" << endl;
-	else
-		cout << "NO" << endl;
+	vector<vector<int>> g(n + 1);
+	for (int i = 0; i < n - 1; i++)
+	{
+		int u, v;
+		cin >> u >> v;
+		g[u].push_back(v);
+		g[v].push_back(u);
+	}
+
+	unordered_set<int> operations;
+	unordered_map<int, vector<int>> edgesToColor;
+
+	function<void(int, int)> dfs = [&](int node, int parent)
+	{
+		for (int neighbor : g[node])
+		{
+			if (neighbor == parent)
+				continue;
+			dfs(neighbor, node);
+
+			if (primeFactorCounts[node] == primeFactorCounts[neighbor])
+			{
+				edgesToColor[node].push_back(neighbor);
+				edgesToColor[neighbor].push_back(node);
+			}
+		}
+
+		if (edgesToColor[node].size() > 0)
+			operations.insert(node);
+	};
+
+	dfs(1, -1);
+
+	cout << operations.size() << endl;
+	if (!operations.empty())
+	{
+		vector<int> res(operations.begin(), operations.end());
+		sort(res.begin(), res.end());
+		for (int &p : res)
+			cout << p << " ";
+		cout << endl;
+	}
 
 	system("pause");
 	return 0;

@@ -5,6 +5,7 @@
  */
 
 // @lc code=start
+
 class Solution
 {
 public:
@@ -34,6 +35,7 @@ public:
 };
 
 // 空间优化
+
 // class Solution
 // {
 // public:
