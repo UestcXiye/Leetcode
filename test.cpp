@@ -2,97 +2,48 @@
 #include <cstdlib>
 using namespace std;
 
-int countPrimeFactors(int x)
-{
-	unordered_set<int> primeFactors;
-	for (int i = 2; i <= sqrt(x); i++)
-	{
-		while (x % i == 0)
-		{
-			primeFactors.insert(i);
-			x /= i;
-		}
-	}
-	if (x > 1)
-		primeFactors.insert(x);
-	return primeFactors.size();
-}
-
-// void dfs(int node, int parent, const vector<int> &primeFactorCounts, const vector<vector<int>> &g,
-// 		 unordered_set<int> &operations, unordered_map<int, vector<int>> &edgesToColor)
-// {
-// 	for (int neighbor : g[node])
-// 	{
-// 		if (neighbor == parent)
-// 			continue;
-// 		dfs(neighbor, node, primeFactorCounts, g, operations, edgesToColor);
-
-// 		if (primeFactorCounts[node] == primeFactorCounts[neighbor])
-// 		{
-// 			edgesToColor[node].push_back(neighbor);
-// 			edgesToColor[neighbor].push_back(node);
-// 		}
-// 	}
-
-// 	if (edgesToColor[node].size() > 0)
-// 		operations.insert(node);
-// }
-
 int main()
 {
-	int n;
-	cin >> n;
+	string s;
+	cin >> s;
 
-	vector<int> weights(n + 1);
-	vector<int> primeFactorCounts(n + 1);
-	for (int i = 1; i <= n; i++)
+	stack<int> counts;
+	stack<string> strs;
+
+	int n = s.size();
+	int i = 0;
+	while (i < n)
 	{
-		cin >> weights[i];
-		primeFactorCounts[i] = countPrimeFactors(weights[i]);
+		// 数字
+		int j = i + 1;
+		while (j < n && s[j] != '[')
+			j++;
+		counts.push(stoi(s.substr(i, j - i)));
+		// '['之后
+		i = j + 1;
+		j = i + 1;
+		while (j < n && s[j] != ']')
+			j++;
+		strs.push(s.substr(i, j - i));
+		i = j + 1;
 	}
 
-	vector<vector<int>> g(n + 1);
-	for (int i = 0; i < n - 1; i++)
+	vector<string> tmps;
+	while (!counts.empty())
 	{
-		int u, v;
-		cin >> u >> v;
-		g[u].push_back(v);
-		g[v].push_back(u);
+		string tmp;
+		int cnt = counts.top();
+		counts.pop();
+		string sub = strs.top();
+		strs.pop();
+		for (int k = 0; k < cnt; k++)
+			tmp += sub;
+		tmps.push_back(tmp);
 	}
-
-	unordered_set<int> operations;
-	unordered_map<int, vector<int>> edgesToColor;
-
-	function<void(int, int)> dfs = [&](int node, int parent)
-	{
-		for (int neighbor : g[node])
-		{
-			if (neighbor == parent)
-				continue;
-			dfs(neighbor, node);
-
-			if (primeFactorCounts[node] == primeFactorCounts[neighbor])
-			{
-				edgesToColor[node].push_back(neighbor);
-				edgesToColor[neighbor].push_back(node);
-			}
-		}
-
-		if (edgesToColor[node].size() > 0)
-			operations.insert(node);
-	};
-
-	dfs(1, -1);
-
-	cout << operations.size() << endl;
-	if (!operations.empty())
-	{
-		vector<int> res(operations.begin(), operations.end());
-		sort(res.begin(), res.end());
-		for (int &p : res)
-			cout << p << " ";
-		cout << endl;
-	}
+	string res;
+	for (int i = tmps.size() - 1; i >= 0; i--)
+		res += tmps[i];
+	cout << res << endl;
 
 	system("pause");
 	return 0;
