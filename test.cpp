@@ -4,46 +4,37 @@ using namespace std;
 
 int main()
 {
-	string s;
-	cin >> s;
+	string word1 = "bcca", word2 = "abc";
+	
+	vector<int> cnt(26, 0);
+	for (char &c : word2)
+		cnt[c - 'a']--;
+	int shortage = 0;
+	for (int i = 0; i < cnt.size(); i++)
+		if (cnt[i] < 0)
+			shortage++;
 
-	stack<int> counts;
-	stack<string> strs;
-
-	int n = s.size();
-	int i = 0;
-	while (i < n)
+	int len1 = word1.size();
+	long long ans = 0LL;
+	for (int left = 0, right = 0; left < len1; left++)
 	{
-		// 数字
-		int j = i + 1;
-		while (j < n && s[j] != '[')
-			j++;
-		counts.push(stoi(s.substr(i, j - i)));
-		// '['之后
-		i = j + 1;
-		j = i + 1;
-		while (j < n && s[j] != ']')
-			j++;
-		strs.push(s.substr(i, j - i));
-		i = j + 1;
+		while (right < len1 && shortage > 0)
+		{
+			cnt[word1[right]]++;
+			if (cnt[word1[right]] >= 0)
+				shortage--;
+			right++;
+		}
+
+		if (shortage == 0)
+			ans += len1 - right + 1;
+
+		cnt[word1[left]]--;
+		if (cnt[word1[left]] < 0)
+			shortage++;
 	}
 
-	vector<string> tmps;
-	while (!counts.empty())
-	{
-		string tmp;
-		int cnt = counts.top();
-		counts.pop();
-		string sub = strs.top();
-		strs.pop();
-		for (int k = 0; k < cnt; k++)
-			tmp += sub;
-		tmps.push_back(tmp);
-	}
-	string res;
-	for (int i = tmps.size() - 1; i >= 0; i--)
-		res += tmps[i];
-	cout << res << endl;
+	cout << ans << endl;
 
 	system("pause");
 	return 0;
