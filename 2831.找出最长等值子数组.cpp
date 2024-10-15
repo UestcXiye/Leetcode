@@ -15,20 +15,26 @@ public:
         for (int i = 0; i < n; i++)
             posList[nums[i]].push_back(i);
 
-        int ans = 0;
+        int ans = INT_MIN;
         for (auto &[_, pos] : posList)
         {
             int left = 0;
             for (int right = 0; right < pos.size(); right++)
             {
-                // int subLen = pos[right] - pos[left] + 1;
-                // int count = right - left + 1;
-                // int needDelete = subLen - count;
-                while ((pos[right] - pos[left] + 1) - (right - left + 1) > k)
+                // subLen 是子数组的长度
+                int subLen = pos[right] - pos[left] + 1;
+                // count 是等值元素的个数
+                int count = right - left + 1;
+                while (subLen - count > k)
+                {
                     left++;
-                ans = max(ans, right - left + 1);
+                    subLen = pos[right] - pos[left] + 1;
+                    count = right - left + 1;
+                }
+                ans = max(ans, count);
             }
         }
+
         return ans;
     }
 };
