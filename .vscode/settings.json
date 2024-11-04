@@ -76,7 +76,8 @@
         "iomanip": "cpp",
         "mutex": "cpp",
         "scoped_allocator": "cpp",
-        "typeindex": "cpp"
+        "typeindex": "cpp",
+        "winsock2.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
