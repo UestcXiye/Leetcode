@@ -77,7 +77,10 @@
         "mutex": "cpp",
         "scoped_allocator": "cpp",
         "typeindex": "cpp",
-        "winsock2.h": "c"
+        "winsock2.h": "c",
+        "stdio.h": "c",
+        "string.h": "c",
+        "stdlib.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
